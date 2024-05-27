@@ -15,174 +15,183 @@
 
         private void InitializeComponent()
         {
-
-            this.label1 = new System.Windows.Forms.Label();
-            this.textBoxDecimalIPAddress = new System.Windows.Forms.TextBox();
-            this.textBoxBinaryIPAddress = new System.Windows.Forms.TextBox();
-            this.buttonCalculate = new System.Windows.Forms.Button();
-            this.labelClass = new System.Windows.Forms.Label();
-            this.labelSubnetMask = new System.Windows.Forms.Label();
-            this.labelNetworkAddress = new System.Windows.Forms.Label();
-            this.labelBroadcastAddress = new System.Windows.Forms.Label();
-            this.labelFirstIPAddress = new System.Windows.Forms.Label();
-            this.labelLastIPAddress = new System.Windows.Forms.Label();
-            this.labelIPCount = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            // Nouvelle boîte de texte pour le CIDR
-            this.textBoxCIDR = new System.Windows.Forms.TextBox();
-            this.SuspendLayout();
+            label1 = new Label();
+            textBoxDecimalIPAddress = new TextBox();
+            textBoxBinaryIPAddress = new TextBox();
+            buttonCalculate = new Button();
+            labelClass = new Label();
+            labelSubnetMask = new Label();
+            labelNetworkAddress = new Label();
+            labelBroadcastAddress = new Label();
+            labelFirstIPAddress = new Label();
+            labelLastIPAddress = new Label();
+            labelIPCount = new Label();
+            label2 = new Label();
+            textBoxCIDR = new TextBox();
+            label3 = new Label();
+            SuspendLayout();
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(16, 23);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(237, 20);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Entrez une adresse IPv4 décimale:";
+            label1.AutoSize = true;
+            label1.Location = new Point(16, 23);
+            label1.Margin = new Padding(4, 0, 4, 0);
+            label1.Name = "label1";
+            label1.Size = new Size(231, 20);
+            label1.TabIndex = 0;
+            label1.Text = "Entrez une adresse IPv4 décimale:";
             // 
             // textBoxDecimalIPAddress
             // 
-            this.textBoxDecimalIPAddress.Location = new System.Drawing.Point(261, 20);
-            this.textBoxDecimalIPAddress.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.textBoxDecimalIPAddress.Name = "textBoxDecimalIPAddress";
-            this.textBoxDecimalIPAddress.Size = new System.Drawing.Size(179, 27);
-            this.textBoxDecimalIPAddress.TabIndex = 1;
+            textBoxDecimalIPAddress.Location = new Point(261, 20);
+            textBoxDecimalIPAddress.Margin = new Padding(4, 5, 4, 5);
+            textBoxDecimalIPAddress.Name = "textBoxDecimalIPAddress";
+            textBoxDecimalIPAddress.Size = new Size(179, 27);
+            textBoxDecimalIPAddress.TabIndex = 1;
+            textBoxDecimalIPAddress.TextChanged += textBoxDecimalIPAddress_TextChanged;
             // 
             // textBoxBinaryIPAddress
             // 
-            this.textBoxBinaryIPAddress.Location = new System.Drawing.Point(261, 60);
-            this.textBoxBinaryIPAddress.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.textBoxBinaryIPAddress.Name = "textBoxBinaryIPAddress";
-            this.textBoxBinaryIPAddress.Size = new System.Drawing.Size(179, 27);
-            this.textBoxBinaryIPAddress.TabIndex = 2;
+            textBoxBinaryIPAddress.Location = new Point(261, 60);
+            textBoxBinaryIPAddress.Margin = new Padding(4, 5, 4, 5);
+            textBoxBinaryIPAddress.Name = "textBoxBinaryIPAddress";
+            textBoxBinaryIPAddress.Size = new Size(179, 27);
+            textBoxBinaryIPAddress.TabIndex = 2;
+            textBoxBinaryIPAddress.TextChanged += textBoxBinaryIPAddress_TextChanged;
             // 
             // buttonCalculate
             // 
-            this.buttonCalculate.Location = new System.Drawing.Point(448, 12);
-            this.buttonCalculate.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.buttonCalculate.Name = "buttonCalculate";
-            this.buttonCalculate.Size = new System.Drawing.Size(100, 75);
-            this.buttonCalculate.TabIndex = 3;
-            this.buttonCalculate.Text = "Calculer";
-            this.buttonCalculate.UseVisualStyleBackColor = true;
-            this.buttonCalculate.Click += new System.EventHandler(this.buttonCalculate_Click);
+            buttonCalculate.Location = new Point(448, 12);
+            buttonCalculate.Margin = new Padding(4, 5, 4, 5);
+            buttonCalculate.Name = "buttonCalculate";
+            buttonCalculate.Size = new Size(100, 75);
+            buttonCalculate.TabIndex = 3;
+            buttonCalculate.Text = "Calculer";
+            buttonCalculate.UseVisualStyleBackColor = true;
+            buttonCalculate.Click += buttonCalculate_Click;
             // 
             // labelClass
             // 
-            this.labelClass.AutoSize = true;
-            this.labelClass.Location = new System.Drawing.Point(16, 100);
-            this.labelClass.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.labelClass.Name = "labelClass";
-            this.labelClass.Size = new System.Drawing.Size(151, 20);
-            this.labelClass.TabIndex = 4;
-            this.labelClass.Text = "Classe de l'adresse IP:";
+            labelClass.AutoSize = true;
+            labelClass.Location = new Point(16, 140);
+            labelClass.Margin = new Padding(4, 0, 4, 0);
+            labelClass.Name = "labelClass";
+            labelClass.Size = new Size(151, 20);
+            labelClass.TabIndex = 4;
+            labelClass.Text = "Classe de l'adresse IP:";
             // 
             // labelSubnetMask
             // 
-            this.labelSubnetMask.AutoSize = true;
-            this.labelSubnetMask.Location = new System.Drawing.Point(16, 140);
-            this.labelSubnetMask.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.labelSubnetMask.Name = "labelSubnetMask";
-            this.labelSubnetMask.Size = new System.Drawing.Size(204, 20);
-            this.labelSubnetMask.TabIndex = 5;
-            this.labelSubnetMask.Text = "Masque de sous-réseau CIDR:";
+            labelSubnetMask.AutoSize = true;
+            labelSubnetMask.Location = new Point(16, 180);
+            labelSubnetMask.Margin = new Padding(4, 0, 4, 0);
+            labelSubnetMask.Name = "labelSubnetMask";
+            labelSubnetMask.Size = new Size(204, 20);
+            labelSubnetMask.TabIndex = 5;
+            labelSubnetMask.Text = "Masque de sous-réseau CIDR:";
             // 
             // labelNetworkAddress
             // 
-            this.labelNetworkAddress.AutoSize = true;
-            this.labelNetworkAddress.Location = new System.Drawing.Point(16, 180);
-            this.labelNetworkAddress.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.labelNetworkAddress.Name = "labelNetworkAddress";
-            this.labelNetworkAddress.Size = new System.Drawing.Size(132, 20);
-            this.labelNetworkAddress.TabIndex = 6;
-            this.labelNetworkAddress.Text = "Adresse de réseau:";
+            labelNetworkAddress.AutoSize = true;
+            labelNetworkAddress.Location = new Point(16, 220);
+            labelNetworkAddress.Margin = new Padding(4, 0, 4, 0);
+            labelNetworkAddress.Name = "labelNetworkAddress";
+            labelNetworkAddress.Size = new Size(132, 20);
+            labelNetworkAddress.TabIndex = 6;
+            labelNetworkAddress.Text = "Adresse de réseau:";
             // 
             // labelBroadcastAddress
             // 
-            this.labelBroadcastAddress.AutoSize = true;
-            this.labelBroadcastAddress.Location = new System.Drawing.Point(16, 220);
-            this.labelBroadcastAddress.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.labelBroadcastAddress.Name = "labelBroadcastAddress";
-            this.labelBroadcastAddress.Size = new System.Drawing.Size(155, 20);
-            this.labelBroadcastAddress.TabIndex = 7;
-            this.labelBroadcastAddress.Text = "Adresse de broadcast:";
+            labelBroadcastAddress.AutoSize = true;
+            labelBroadcastAddress.Location = new Point(16, 260);
+            labelBroadcastAddress.Margin = new Padding(4, 0, 4, 0);
+            labelBroadcastAddress.Name = "labelBroadcastAddress";
+            labelBroadcastAddress.Size = new Size(155, 20);
+            labelBroadcastAddress.TabIndex = 7;
+            labelBroadcastAddress.Text = "Adresse de broadcast:";
             // 
             // labelFirstIPAddress
             // 
-            this.labelFirstIPAddress.AutoSize = true;
-            this.labelFirstIPAddress.Location = new System.Drawing.Point(16, 260);
-            this.labelFirstIPAddress.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.labelFirstIPAddress.Name = "labelFirstIPAddress";
-            this.labelFirstIPAddress.Size = new System.Drawing.Size(141, 20);
-            this.labelFirstIPAddress.TabIndex = 8;
-            this.labelFirstIPAddress.Text = "Première adresse IP:";
+            labelFirstIPAddress.AutoSize = true;
+            labelFirstIPAddress.Location = new Point(16, 300);
+            labelFirstIPAddress.Margin = new Padding(4, 0, 4, 0);
+            labelFirstIPAddress.Name = "labelFirstIPAddress";
+            labelFirstIPAddress.Size = new Size(141, 20);
+            labelFirstIPAddress.TabIndex = 8;
+            labelFirstIPAddress.Text = "Première adresse IP:";
             // 
             // labelLastIPAddress
             // 
-            this.labelLastIPAddress.AutoSize = true;
-            this.labelLastIPAddress.Location = new System.Drawing.Point(16, 300);
-            this.labelLastIPAddress.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.labelLastIPAddress.Name = "labelLastIPAddress";
-            this.labelLastIPAddress.Size = new System.Drawing.Size(139, 20);
-            this.labelLastIPAddress.TabIndex = 9;
-            this.labelLastIPAddress.Text = "Dernière adresse IP:";
+            labelLastIPAddress.AutoSize = true;
+            labelLastIPAddress.Location = new Point(16, 340);
+            labelLastIPAddress.Margin = new Padding(4, 0, 4, 0);
+            labelLastIPAddress.Name = "labelLastIPAddress";
+            labelLastIPAddress.Size = new Size(139, 20);
+            labelLastIPAddress.TabIndex = 9;
+            labelLastIPAddress.Text = "Dernière adresse IP:";
             // 
             // labelIPCount
             // 
-            this.labelIPCount.AutoSize = true;
-            this.labelIPCount.Location = new System.Drawing.Point(16, 340);
-            this.labelIPCount.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.labelIPCount.Name = "labelIPCount";
-            this.labelIPCount.Size = new System.Drawing.Size(235, 20);
-            this.labelIPCount.TabIndex = 10;
-            this.labelIPCount.Text = "Nombre d'adresses IP disponibles:";
+            labelIPCount.AutoSize = true;
+            labelIPCount.Location = new Point(16, 380);
+            labelIPCount.Margin = new Padding(4, 0, 4, 0);
+            labelIPCount.Name = "labelIPCount";
+            labelIPCount.Size = new Size(235, 20);
+            labelIPCount.TabIndex = 10;
+            labelIPCount.Text = "Nombre d'adresses IP disponibles:";
             // 
             // label2
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(16, 63);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(221, 20);
-            this.label2.TabIndex = 11;
-            this.label2.Text = "Entrez une adresse IPv4 binaire:";
+            label2.AutoSize = true;
+            label2.Location = new Point(16, 63);
+            label2.Margin = new Padding(4, 0, 4, 0);
+            label2.Name = "label2";
+            label2.Size = new Size(216, 20);
+            label2.TabIndex = 11;
+            label2.Text = "Entrez une adresse IPv4 binaire:";
             // 
             // textBoxCIDR
             // 
-            this.textBoxCIDR.Location = new System.Drawing.Point(261, 100); // Ajustez la position de la boîte de texte selon vos besoins
-            this.textBoxCIDR.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.textBoxCIDR.Name = "textBoxCIDR";
-            this.textBoxCIDR.Size = new System.Drawing.Size(179, 27); // Ajustez la taille de la boîte de texte selon vos besoins
-            this.textBoxCIDR.TabIndex = 12; // Assurez-vous que l'indice est correct
+            textBoxCIDR.Location = new Point(261, 100);
+            textBoxCIDR.Margin = new Padding(4, 5, 4, 5);
+            textBoxCIDR.Name = "textBoxCIDR";
+            textBoxCIDR.Size = new Size(179, 27);
+            textBoxCIDR.TabIndex = 12;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(16, 100);
+            label3.Margin = new Padding(4, 0, 4, 0);
+            label3.Name = "label3";
+            label3.Size = new Size(106, 20);
+            label3.TabIndex = 13;
+            label3.Text = "Entrez le CIDR:";
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(563, 411);
-            this.Controls.Add(this.textBoxCIDR); // Ajoutez la boîte de texte CIDR aux contrôles du formulaire
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.labelIPCount);
-            this.Controls.Add(this.labelLastIPAddress);
-            this.Controls.Add(this.labelFirstIPAddress);
-            this.Controls.Add(this.labelBroadcastAddress);
-            this.Controls.Add(this.labelNetworkAddress);
-            this.Controls.Add(this.labelSubnetMask);
-            this.Controls.Add(this.labelClass);
-            this.Controls.Add(this.buttonCalculate);
-            this.Controls.Add(this.textBoxBinaryIPAddress);
-            this.Controls.Add(this.textBoxDecimalIPAddress);
-            this.Controls.Add(this.label1);
-            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.Name = "Form1";
-            this.Text = "Calculateur d'adresse IP";
-            this.ResumeLayout(false);
-            this.PerformLayout();
-            this.textBoxDecimalIPAddress.TextChanged += new System.EventHandler(this.textBoxDecimalIPAddress_TextChanged);
-            this.textBoxBinaryIPAddress.TextChanged += new System.EventHandler(this.textBoxBinaryIPAddress_TextChanged);
-
+            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(563, 411);
+            Controls.Add(label3);
+            Controls.Add(textBoxCIDR);
+            Controls.Add(label2);
+            Controls.Add(labelIPCount);
+            Controls.Add(labelLastIPAddress);
+            Controls.Add(labelFirstIPAddress);
+            Controls.Add(labelBroadcastAddress);
+            Controls.Add(labelNetworkAddress);
+            Controls.Add(labelSubnetMask);
+            Controls.Add(labelClass);
+            Controls.Add(buttonCalculate);
+            Controls.Add(textBoxBinaryIPAddress);
+            Controls.Add(textBoxDecimalIPAddress);
+            Controls.Add(label1);
+            Margin = new Padding(4, 5, 4, 5);
+            Name = "Form1";
+            Text = "Calculateur d'adresse IP";
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         private System.Windows.Forms.Label label1;
@@ -198,8 +207,6 @@
         private System.Windows.Forms.Label labelIPCount;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox textBoxCIDR;
-
-
+        private Label label3;
     }
 }
-

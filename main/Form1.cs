@@ -29,7 +29,7 @@ namespace IPAddressCalculator
         {
             string inputDecimal = textBoxDecimalIPAddress.Text;
             string inputBinary = textBoxBinaryIPAddress.Text;
-            string inputCIDR = textBoxCIDR.Text; 
+            string inputCIDR = textBoxCIDR.Text;
 
             string input = !string.IsNullOrEmpty(inputDecimal) ? inputDecimal : inputBinary;
             if (int.TryParse(inputCIDR, out int cidr))
@@ -159,14 +159,14 @@ namespace IPAddressCalculator
         static IPAddress GetFirstIPAddress(IPAddress networkAddress)
         {
             byte[] ipBytes = networkAddress.GetAddressBytes();
-            ipBytes[ipBytes.Length - 1] += 1; 
+            ipBytes[ipBytes.Length - 1] += 1;
             return new IPAddress(ipBytes);
         }
 
         static IPAddress GetLastIPAddress(IPAddress broadcastAddress)
         {
             byte[] ipBytes = broadcastAddress.GetAddressBytes();
-            ipBytes[ipBytes.Length - 1] -= 1; 
+            ipBytes[ipBytes.Length - 1] -= 1;
             return new IPAddress(ipBytes);
         }
 
