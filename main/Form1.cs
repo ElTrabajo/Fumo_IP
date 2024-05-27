@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using System.Media;
 using System.Net;
 using System.Windows.Forms;
 using Microsoft.VisualBasic.Devices;
@@ -14,12 +13,6 @@ namespace IPAddressCalculator
         public Form1()
         {
             InitializeComponent();
-            playSimpleSound();
-        }
-        private void playSimpleSound()
-        {
-            SoundPlayer simpleSound = new SoundPlayer(Resources.caca);
-            simpleSound.Play();
         }
         private void buttonCalculate_Click(object sender, EventArgs e)
         {
