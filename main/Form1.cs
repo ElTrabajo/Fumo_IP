@@ -12,18 +12,32 @@ namespace IPAddressCalculator
             InitializeComponent();
         }
 
+        private void textBoxDecimalIPAddress_TextChanged(object sender, EventArgs e)
+        {
+            // Désactiver la boîte de texte de l'adresse IP en binaire si la boîte de texte de l'adresse IP en décimal est remplie
+            textBoxBinaryIPAddress.Enabled = string.IsNullOrEmpty(textBoxDecimalIPAddress.Text);
+        }
+
+        private void textBoxBinaryIPAddress_TextChanged(object sender, EventArgs e)
+        {
+            // Désactiver la boîte de texte de l'adresse IP en décimal si la boîte de texte de l'adresse IP en binaire est remplie
+            textBoxDecimalIPAddress.Enabled = string.IsNullOrEmpty(textBoxBinaryIPAddress.Text);
+        }
+
+
         private void buttonCalculate_Click(object sender, EventArgs e)
         {
             string inputDecimal = textBoxDecimalIPAddress.Text;
             string inputBinary = textBoxBinaryIPAddress.Text;
+            string inputCIDR = textBoxCIDR.Text; 
 
             string input = !string.IsNullOrEmpty(inputDecimal) ? inputDecimal : inputBinary;
-            string[] parts = input.Split('/');
-            if (parts.Length == 2 && int.TryParse(parts[1], out int cidr))
+            if (int.TryParse(inputCIDR, out int cidr))
             {
                 if (cidr >= 0 && cidr <= 32)
                 {
-                    string ipString = parts[0];
+                    string ipString = input;
+
                     if (!string.IsNullOrEmpty(inputBinary) && IsBinaryFormat(ipString))
                     {
                         ipString = ConvertBinaryToDecimal(ipString);
@@ -59,7 +73,7 @@ namespace IPAddressCalculator
             }
             else
             {
-                MessageBox.Show("Adresse IP ou CIDR invalide.", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("CIDR invalide.", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -145,14 +159,14 @@ namespace IPAddressCalculator
         static IPAddress GetFirstIPAddress(IPAddress networkAddress)
         {
             byte[] ipBytes = networkAddress.GetAddressBytes();
-            ipBytes[ipBytes.Length - 1] += 1; // Ajouter 1 à l'adresse de réseau
+            ipBytes[ipBytes.Length - 1] += 1; 
             return new IPAddress(ipBytes);
         }
 
         static IPAddress GetLastIPAddress(IPAddress broadcastAddress)
         {
             byte[] ipBytes = broadcastAddress.GetAddressBytes();
-            ipBytes[ipBytes.Length - 1] -= 1; // Soustraire 1 à l'adresse de broadcast
+            ipBytes[ipBytes.Length - 1] -= 1; 
             return new IPAddress(ipBytes);
         }
 
@@ -164,4 +178,3 @@ namespace IPAddressCalculator
         }
     }
 }
-    

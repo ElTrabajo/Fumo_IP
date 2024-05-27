@@ -15,6 +15,7 @@
 
         private void InitializeComponent()
         {
+
             this.label1 = new System.Windows.Forms.Label();
             this.textBoxDecimalIPAddress = new System.Windows.Forms.TextBox();
             this.textBoxBinaryIPAddress = new System.Windows.Forms.TextBox();
@@ -27,6 +28,8 @@
             this.labelLastIPAddress = new System.Windows.Forms.Label();
             this.labelIPCount = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            // Nouvelle boîte de texte pour le CIDR
+            this.textBoxCIDR = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // label1
@@ -146,11 +149,20 @@
             this.label2.TabIndex = 11;
             this.label2.Text = "Entrez une adresse IPv4 binaire:";
             // 
+            // textBoxCIDR
+            // 
+            this.textBoxCIDR.Location = new System.Drawing.Point(261, 100); // Ajustez la position de la boîte de texte selon vos besoins
+            this.textBoxCIDR.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.textBoxCIDR.Name = "textBoxCIDR";
+            this.textBoxCIDR.Size = new System.Drawing.Size(179, 27); // Ajustez la taille de la boîte de texte selon vos besoins
+            this.textBoxCIDR.TabIndex = 12; // Assurez-vous que l'indice est correct
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(563, 411);
+            this.Controls.Add(this.textBoxCIDR); // Ajoutez la boîte de texte CIDR aux contrôles du formulaire
             this.Controls.Add(this.label2);
             this.Controls.Add(this.labelIPCount);
             this.Controls.Add(this.labelLastIPAddress);
@@ -168,6 +180,9 @@
             this.Text = "Calculateur d'adresse IP";
             this.ResumeLayout(false);
             this.PerformLayout();
+            this.textBoxDecimalIPAddress.TextChanged += new System.EventHandler(this.textBoxDecimalIPAddress_TextChanged);
+            this.textBoxBinaryIPAddress.TextChanged += new System.EventHandler(this.textBoxBinaryIPAddress_TextChanged);
+
         }
 
         private System.Windows.Forms.Label label1;
@@ -182,5 +197,9 @@
         private System.Windows.Forms.Label labelLastIPAddress;
         private System.Windows.Forms.Label labelIPCount;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox textBoxCIDR;
+
+
     }
 }
+
