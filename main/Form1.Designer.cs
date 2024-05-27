@@ -157,6 +157,7 @@
             textBoxCIDR.Name = "textBoxCIDR";
             textBoxCIDR.Size = new Size(179, 27);
             textBoxCIDR.TabIndex = 12;
+            textBoxCIDR.TextChanged += textBoxCIDR_TextChanged;
             // 
             // label3
             // 
@@ -167,6 +168,17 @@
             label3.Size = new Size(106, 20);
             label3.TabIndex = 13;
             label3.Text = "Entrez le CIDR:";
+            // 
+            // BoxSubnetMask
+            // 
+            textBoxSubnetMask = new TextBox();
+            textBoxSubnetMask.Location = new Point(261, 140);
+            textBoxSubnetMask.Margin = new Padding(4, 5, 4, 5);
+            textBoxSubnetMask.Name = "textBoxSubnetMask";
+            textBoxSubnetMask.Size = new Size(179, 27);
+            textBoxSubnetMask.TabIndex = 14; // Ajustez le numéro de tabulation si nécessaire
+            Controls.Add(textBoxSubnetMask);
+            textBoxSubnetMask.TextChanged += textBoxSubnetMask_TextChanged;
             // 
             // Form1
             // 
@@ -208,5 +220,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox textBoxCIDR;
         private Label label3;
+        private System.Windows.Forms.TextBox textBoxSubnetMask;
+
     }
 }

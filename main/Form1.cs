@@ -14,66 +14,84 @@ namespace IPAddressCalculator
 
         private void textBoxDecimalIPAddress_TextChanged(object sender, EventArgs e)
         {
-            // Désactiver la boîte de texte de l'adresse IP en binaire si la boîte de texte de l'adresse IP en décimal est remplie
             textBoxBinaryIPAddress.Enabled = string.IsNullOrEmpty(textBoxDecimalIPAddress.Text);
         }
 
         private void textBoxBinaryIPAddress_TextChanged(object sender, EventArgs e)
         {
-            // Désactiver la boîte de texte de l'adresse IP en décimal si la boîte de texte de l'adresse IP en binaire est remplie
             textBoxDecimalIPAddress.Enabled = string.IsNullOrEmpty(textBoxBinaryIPAddress.Text);
         }
 
+        private void textBoxCIDR_TextChanged(object sender, EventArgs e)
+        {
+            textBoxSubnetMask.Enabled = string.IsNullOrEmpty(textBoxCIDR.Text);
+        }
+
+        private void textBoxSubnetMask_TextChanged(object sender, EventArgs e)
+        {
+            textBoxCIDR.Enabled = string.IsNullOrEmpty(textBoxSubnetMask.Text);
+        }
 
         private void buttonCalculate_Click(object sender, EventArgs e)
         {
             string inputDecimal = textBoxDecimalIPAddress.Text;
             string inputBinary = textBoxBinaryIPAddress.Text;
             string inputCIDR = textBoxCIDR.Text;
+            string inputSubnetMask = textBoxSubnetMask.Text;
 
             string input = !string.IsNullOrEmpty(inputDecimal) ? inputDecimal : inputBinary;
-            if (int.TryParse(inputCIDR, out int cidr))
+            int cidr;
+
+            if (!string.IsNullOrEmpty(inputCIDR))
             {
-                if (cidr >= 0 && cidr <= 32)
-                {
-                    string ipString = input;
-
-                    if (!string.IsNullOrEmpty(inputBinary) && IsBinaryFormat(ipString))
-                    {
-                        ipString = ConvertBinaryToDecimal(ipString);
-                    }
-
-                    if (IPAddress.TryParse(ipString, out IPAddress address))
-                    {
-                        string ipClass = GetIPClass(address);
-                        IPAddress subnetMask = GetSubnetMaskFromCIDR(cidr);
-                        IPAddress networkAddress = GetNetworkAddress(address, subnetMask);
-                        IPAddress broadcastAddress = GetBroadcastAddress(networkAddress, subnetMask);
-                        IPAddress firstIPAddress = GetFirstIPAddress(networkAddress);
-                        IPAddress lastIPAddress = GetLastIPAddress(broadcastAddress);
-                        int availableIPCount = GetAvailableIPCount(subnetMask);
-
-                        labelClass.Text = $"Classe de l'adresse IP: {ipClass}";
-                        labelSubnetMask.Text = $"Masque de sous-réseau CIDR: {subnetMask}";
-                        labelNetworkAddress.Text = $"Adresse de réseau: {networkAddress}";
-                        labelBroadcastAddress.Text = $"Adresse de broadcast: {broadcastAddress}";
-                        labelFirstIPAddress.Text = $"Première adresse IP: {firstIPAddress}";
-                        labelLastIPAddress.Text = $"Dernière adresse IP: {lastIPAddress}";
-                        labelIPCount.Text = $"Nombre d'adresses IP disponibles: {availableIPCount}";
-                    }
-                    else
-                    {
-                        MessageBox.Show("Adresse IP invalide.", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
-                else
+                if (!int.TryParse(inputCIDR, out cidr) || cidr < 0 || cidr > 32)
                 {
                     MessageBox.Show("CIDR invalide. Il doit être entre 0 et 32.", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+            }
+            else if (!string.IsNullOrEmpty(inputSubnetMask))
+            {
+                cidr = SubnetMaskToCIDR(inputSubnetMask);
+                if (cidr == -1)
+                {
+                    MessageBox.Show("Masque de sous-réseau invalide.", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
                 }
             }
             else
             {
-                MessageBox.Show("CIDR invalide.", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Veuillez entrer un CIDR ou un masque de sous-réseau.", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            string ipString = input;
+            if (!string.IsNullOrEmpty(inputBinary) && IsBinaryFormat(ipString))
+            {
+                ipString = ConvertBinaryToDecimal(ipString);
+            }
+
+            if (IPAddress.TryParse(ipString, out IPAddress address))
+            {
+                string ipClass = GetIPClass(address);
+                IPAddress subnetMask = GetSubnetMaskFromCIDR(cidr);
+                IPAddress networkAddress = GetNetworkAddress(address, subnetMask);
+                IPAddress broadcastAddress = GetBroadcastAddress(networkAddress, subnetMask);
+                IPAddress firstIPAddress = GetFirstIPAddress(networkAddress);
+                IPAddress lastIPAddress = GetLastIPAddress(broadcastAddress);
+                int availableIPCount = GetAvailableIPCount(subnetMask);
+
+                labelClass.Text = $"Classe de l'adresse IP: {ipClass}";
+                labelSubnetMask.Text = $"Masque de sous-réseau CIDR: {subnetMask}";
+                labelNetworkAddress.Text = $"Adresse de réseau: {networkAddress}";
+                labelBroadcastAddress.Text = $"Adresse de broadcast: {broadcastAddress}";
+                labelFirstIPAddress.Text = $"Première adresse IP: {firstIPAddress}";
+                labelLastIPAddress.Text = $"Dernière adresse IP: {lastIPAddress}";
+                labelIPCount.Text = $"Nombre d'adresses IP disponibles: {availableIPCount}";
+            }
+            else
+            {
+                MessageBox.Show("Adresse IP invalide.", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -95,6 +113,24 @@ namespace IPAddressCalculator
             }
 
             return string.Join(".", decimalOctets);
+        }
+
+        private int SubnetMaskToCIDR(string subnetMask)
+        {
+            IPAddress mask;
+            if (IPAddress.TryParse(subnetMask, out mask))
+            {
+                byte[] bytes = mask.GetAddressBytes();
+                uint maskValue = BitConverter.ToUInt32(bytes.Reverse().ToArray(), 0);
+                int cidr = 0;
+                while (maskValue != 0)
+                {
+                    cidr += (int)(maskValue & 1);
+                    maskValue >>= 1;
+                }
+                return cidr;
+            }
+            return -1;
         }
 
         static string GetIPClass(IPAddress ipAddress)
