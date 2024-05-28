@@ -125,11 +125,18 @@ namespace IPAddressCalculator
         {
             if (!string.IsNullOrEmpty(inputCIDR))
             {
-                if (int.TryParse(inputCIDR, out int cidr) && cidr >= 0 && cidr <= 32)
+                if (int.TryParse(inputCIDR, out int cidr) && cidr > 0 && cidr <= 32) 
                 {
                     return cidr;
                 }
-                MessageBox.Show("CIDR invalide. Il doit être entre 0 et 32.", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                else if (cidr == 0)
+                {
+                    MessageBox.Show("CIDR invalide. Le CIDR ne peut pas être égal à 0.", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    MessageBox.Show("CIDR invalide. Il doit être entre 1 et 32.", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
             else if (!string.IsNullOrEmpty(inputSubnetMask))
             {
@@ -146,6 +153,7 @@ namespace IPAddressCalculator
             }
             return -1;
         }
+
 
         private void DisplayCalculatedValues(IPAddress address, int cidr)
         {
