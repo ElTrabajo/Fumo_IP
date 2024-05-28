@@ -63,9 +63,19 @@ namespace WinFormsApp1.Properties {
         /// <summary>
         ///   Recherche une ressource localisée de type System.IO.UnmanagedMemoryStream semblable à System.IO.MemoryStream.
         /// </summary>
-        internal static System.IO.UnmanagedMemoryStream caca {
+        internal static System.IO.UnmanagedMemoryStream audio {
             get {
-                return ResourceManager.GetStream("caca", resourceCulture);
+                return ResourceManager.GetStream("audio", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Sans_titre_1 {
+            get {
+                object obj = ResourceManager.GetObject("Sans_titre_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
     }
