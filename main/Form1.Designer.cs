@@ -15,6 +15,7 @@
 
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             label1 = new Label();
             textBoxDecimalIPAddress = new TextBox();
             textBoxBinaryIPAddress = new TextBox();
@@ -34,6 +35,7 @@
             buttonClear = new Button();
             label5 = new Label();
             labelMachinesCount = new Label();
+            linkLabelCredit = new LinkLabel();
             SuspendLayout();
             // 
             // label1
@@ -235,11 +237,25 @@
             labelMachinesCount.Text = "Nombre de machines disponibles:";
             labelMachinesCount.Visible = false;
             // 
+            // linkLabelCredit
+            // 
+            linkLabelCredit.Anchor = AnchorStyles.Bottom;
+            linkLabelCredit.AutoSize = true;
+            linkLabelCredit.Location = new Point(239, 499);
+            linkLabelCredit.Margin = new Padding(0);
+            linkLabelCredit.Name = "linkLabelCredit";
+            linkLabelCredit.Size = new Size(55, 20);
+            linkLabelCredit.TabIndex = 20;
+            linkLabelCredit.TabStop = true;
+            linkLabelCredit.Text = "Crédits";
+            linkLabelCredit.LinkClicked += CreditLabel_LinkClicked;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(563, 502);
+            ClientSize = new Size(562, 528);
+            Controls.Add(linkLabelCredit);
             Controls.Add(labelMachinesCount);
             Controls.Add(label5);
             Controls.Add(buttonClear);
@@ -259,9 +275,10 @@
             Controls.Add(textBoxBinaryIPAddress);
             Controls.Add(textBoxDecimalIPAddress);
             Controls.Add(label1);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(4, 5, 4, 5);
             Name = "Form1";
-            Text = "Calculateur d'adresse IP";
+            Text = "Calculateur IPv4";
             ResumeLayout(false);
             PerformLayout();
         }
@@ -286,5 +303,6 @@
         private Label label5;
         private Label label6;
         private Label labelMachinesCount;
+        private LinkLabel linkLabelCredit;
     }
 }

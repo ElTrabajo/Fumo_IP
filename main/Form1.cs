@@ -273,5 +273,19 @@ namespace IPAddressCalculator
         {
             return GetAvailableIPCount(subnetMask) - 2;
         }
+
+        private void CreditLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            // Affichez le message des crédits de l'auteur lorsque le lien est cliqué
+            string message = "Crédits : \n\n" +
+                            "LEMAIRE Clément\n" +
+                            "GHEERAERT Elias\n" +
+                            "FOURNET Loan\n" +
+                            "LASORNE Nathan\n\n" +
+                            "2024";
+
+            MessageBox.Show(message, "Crédits", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+        }
     }
 }
