@@ -167,7 +167,7 @@ namespace IPAddressCalculator
             int availableMachinesCount = GetAvailableMachinesCount(subnetMask);
 
             labelClass.Text = $"Classe de l'adresse IP : {ipClass}";
-            labelSubnetMask.Text = $"Masque de sous-réseau CIDR : {subnetMask}";
+            labelSubnetMask.Text = $"Masque de sous-réseau CIDR : {subnetMask}/{cidr}";
             labelNetworkAddress.Text = $"Adresse de réseau : {networkAddress}";
             labelBroadcastAddress.Text = $"Adresse de broadcast : {broadcastAddress}";
             labelFirstIPAddress.Text = $"Première adresse IP : {firstIPAddress}";
@@ -175,6 +175,7 @@ namespace IPAddressCalculator
             labelIPCount.Text = $"Nombre d'adresses IP disponibles : {availableIPCount}";
             labelMachinesCount.Text = $"Nombre de machines disponibles : {availableMachinesCount}";
         }
+
 
         private bool IsReservedIPAddress(IPAddress ipAddress)
         {
