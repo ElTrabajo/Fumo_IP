@@ -59,14 +59,5 @@ namespace WinFormsApp1.Properties {
                 resourceCulture = value;
             }
         }
-        
-        /// <summary>
-        ///   Recherche une ressource localisée de type System.IO.UnmanagedMemoryStream semblable à System.IO.MemoryStream.
-        /// </summary>
-        internal static System.IO.UnmanagedMemoryStream caca {
-            get {
-                return ResourceManager.GetStream("caca", resourceCulture);
-            }
-        }
     }
 }
