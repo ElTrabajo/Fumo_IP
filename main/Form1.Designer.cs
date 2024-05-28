@@ -16,6 +16,8 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             label1 = new Label();
             textBoxDecimalIPAddress = new TextBox();
             textBoxBinaryIPAddress = new TextBox();
@@ -277,6 +279,7 @@
             Controls.Add(label1);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(4, 5, 4, 5);
+            MaximizeBox = false;
             Name = "Form1";
             Text = "Calculateur IPv4";
             ResumeLayout(false);
