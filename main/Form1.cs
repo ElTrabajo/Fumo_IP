@@ -125,7 +125,7 @@ namespace IPAddressCalculator
         {
             if (!string.IsNullOrEmpty(inputCIDR))
             {
-                if (int.TryParse(inputCIDR, out int cidr) && cidr > 0 && cidr <= 32) 
+                if (int.TryParse(inputCIDR, out int cidr) && cidr > 0 && cidr <= 32)
                 {
                     return cidr;
                 }
@@ -143,6 +143,11 @@ namespace IPAddressCalculator
                 int cidr = SubnetMaskToCIDR(inputSubnetMask);
                 if (cidr != -1)
                 {
+                    if (cidr < 1)
+                    {
+                        MessageBox.Show("Masque de sous-réseau trop petit. Le masque de sous-réseau minimum est 128.0.0.0.", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return -1;
+                    }
                     return cidr;
                 }
                 MessageBox.Show("Masque de sous-réseau invalide.", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -153,6 +158,7 @@ namespace IPAddressCalculator
             }
             return -1;
         }
+
 
 
         private void DisplayCalculatedValues(IPAddress address, int cidr)
