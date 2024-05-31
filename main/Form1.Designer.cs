@@ -16,8 +16,6 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            this.FormBorderStyle = FormBorderStyle.FixedSingle;
-            this.MaximizeBox = false;
             label1 = new Label();
             textBoxDecimalIPAddress = new TextBox();
             textBoxBinaryIPAddress = new TextBox();
@@ -38,6 +36,7 @@
             label5 = new Label();
             labelMachinesCount = new Label();
             linkLabelCredit = new LinkLabel();
+            labelInverseSubnetMask = new Label();
             SuspendLayout();
             // 
             // label1
@@ -117,7 +116,7 @@
             // labelBroadcastAddress
             // 
             labelBroadcastAddress.AutoSize = true;
-            labelBroadcastAddress.Location = new Point(16, 325);
+            labelBroadcastAddress.Location = new Point(16, 355);
             labelBroadcastAddress.Margin = new Padding(4, 0, 4, 0);
             labelBroadcastAddress.Name = "labelBroadcastAddress";
             labelBroadcastAddress.Size = new Size(155, 20);
@@ -128,7 +127,7 @@
             // labelFirstIPAddress
             // 
             labelFirstIPAddress.AutoSize = true;
-            labelFirstIPAddress.Location = new Point(16, 355);
+            labelFirstIPAddress.Location = new Point(16, 385);
             labelFirstIPAddress.Margin = new Padding(4, 0, 4, 0);
             labelFirstIPAddress.Name = "labelFirstIPAddress";
             labelFirstIPAddress.Size = new Size(141, 20);
@@ -139,7 +138,7 @@
             // labelLastIPAddress
             // 
             labelLastIPAddress.AutoSize = true;
-            labelLastIPAddress.Location = new Point(16, 385);
+            labelLastIPAddress.Location = new Point(16, 415);
             labelLastIPAddress.Margin = new Padding(4, 0, 4, 0);
             labelLastIPAddress.Name = "labelLastIPAddress";
             labelLastIPAddress.Size = new Size(139, 20);
@@ -150,7 +149,7 @@
             // labelIPCount
             // 
             labelIPCount.AutoSize = true;
-            labelIPCount.Location = new Point(16, 415);
+            labelIPCount.Location = new Point(16, 445);
             labelIPCount.Margin = new Padding(4, 0, 4, 0);
             labelIPCount.Name = "labelIPCount";
             labelIPCount.Size = new Size(235, 20);
@@ -231,7 +230,7 @@
             // labelMachinesCount
             // 
             labelMachinesCount.AutoSize = true;
-            labelMachinesCount.Location = new Point(16, 445);
+            labelMachinesCount.Location = new Point(16, 475);
             labelMachinesCount.Margin = new Padding(4, 0, 4, 0);
             labelMachinesCount.Name = "labelMachinesCount";
             labelMachinesCount.Size = new Size(234, 20);
@@ -243,7 +242,7 @@
             // 
             linkLabelCredit.Anchor = AnchorStyles.Bottom;
             linkLabelCredit.AutoSize = true;
-            linkLabelCredit.Location = new Point(239, 499);
+            linkLabelCredit.Location = new Point(239, 515);
             linkLabelCredit.Margin = new Padding(0);
             linkLabelCredit.Name = "linkLabelCredit";
             linkLabelCredit.Size = new Size(55, 20);
@@ -252,11 +251,22 @@
             linkLabelCredit.Text = "Crédits";
             linkLabelCredit.LinkClicked += CreditLabel_LinkClicked;
             // 
+            // labelInverseSubnetMask
+            // 
+            labelInverseSubnetMask.AutoSize = true;
+            labelInverseSubnetMask.Location = new Point(16, 325);
+            labelInverseSubnetMask.Name = "labelInverseSubnetMask";
+            labelInverseSubnetMask.Size = new Size(221, 20);
+            labelInverseSubnetMask.TabIndex = 21;
+            labelInverseSubnetMask.Text = "Masque de sous-réseau inverse :";
+            labelInverseSubnetMask.Visible = false;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(562, 528);
+            ClientSize = new Size(562, 544);
+            Controls.Add(labelInverseSubnetMask);
             Controls.Add(linkLabelCredit);
             Controls.Add(labelMachinesCount);
             Controls.Add(label5);
@@ -277,6 +287,7 @@
             Controls.Add(textBoxBinaryIPAddress);
             Controls.Add(textBoxDecimalIPAddress);
             Controls.Add(label1);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(4, 5, 4, 5);
             MaximizeBox = false;
@@ -304,8 +315,8 @@
         private Label label4;
         private System.Windows.Forms.Button buttonClear;
         private Label label5;
-        private Label label6;
         private Label labelMachinesCount;
         private LinkLabel linkLabelCredit;
+        private Label labelInverseSubnetMask;
     }
 }

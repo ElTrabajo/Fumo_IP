@@ -12,6 +12,7 @@ namespace IPAddressCalculator
             InitializeComponent();
         }
 
+
         private void textBoxDecimalIPAddress_TextChanged(object sender, EventArgs e)
         {
             textBoxBinaryIPAddress.Enabled = string.IsNullOrEmpty(textBoxDecimalIPAddress.Text);
