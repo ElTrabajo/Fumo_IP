@@ -282,12 +282,23 @@ namespace IPAddressCalculator
         {
             byte[] maskBytes = subnetMask.GetAddressBytes();
             uint mask = BitConverter.ToUInt32(maskBytes.Reverse().ToArray(), 0);
-            return (int)(~mask - 1);
+
+            return (int)(~mask + 1);
         }
 
         private int GetAvailableMachinesCount(IPAddress subnetMask)
         {
-            return GetAvailableIPCount(subnetMask) - 2;
+            byte CIDR = (byte)DetermineCIDR(textBoxCIDR.Text, textBoxSubnetMask.Text);
+
+            switch (CIDR)
+            {
+                case 32:
+                    return 1;
+                case 31:
+                    return 0;
+                default:
+                    return GetAvailableIPCount(subnetMask) - 2;
+            }
         }
 
         private void CreditLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
