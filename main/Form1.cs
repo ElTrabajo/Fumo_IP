@@ -353,5 +353,10 @@ namespace IPAddressCalculator
             MessageBox.Show(message, "Crédits", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
         }
+
+        private void labelClass_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
