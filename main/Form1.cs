@@ -74,6 +74,7 @@ namespace IPAddressCalculator
 
             labelClass.Visible = true;
             labelSubnetMask.Visible = true;
+            labelInverseSubnetMask.Visible = true;
             labelNetworkAddress.Visible = true;
             labelBroadcastAddress.Visible = true;
             labelFirstIPAddress.Visible = true;
@@ -93,6 +94,7 @@ namespace IPAddressCalculator
             // Cacher les labels des résultats
             labelClass.Visible = false;
             labelSubnetMask.Visible = false;
+            labelInverseSubnetMask.Visible = false;
             labelNetworkAddress.Visible = false;
             labelBroadcastAddress.Visible = false;
             labelFirstIPAddress.Visible = false;
@@ -160,8 +162,6 @@ namespace IPAddressCalculator
             return -1;
         }
 
-
-
         private void DisplayCalculatedValues(IPAddress address, int cidr)
         {
             string ipClass = GetIPClass(address);
@@ -174,15 +174,14 @@ namespace IPAddressCalculator
             int availableMachinesCount = GetAvailableMachinesCount(subnetMask);
 
             labelClass.Text = $"Classe de l'adresse IP : {ipClass}";
-            labelSubnetMask.Text = $"Masque de sous-réseau CIDR : {subnetMask}/{cidr}";
-            labelNetworkAddress.Text = $"Adresse de réseau : {networkAddress}";
-            labelBroadcastAddress.Text = $"Adresse de broadcast : {broadcastAddress}";
-            labelFirstIPAddress.Text = $"Première adresse IP : {firstIPAddress}";
-            labelLastIPAddress.Text = $"Dernière adresse IP : {lastIPAddress}";
-            labelIPCount.Text = $"Nombre d'adresses IP disponibles : {availableIPCount}";
-            labelMachinesCount.Text = $"Nombre de machines disponibles : {availableMachinesCount}";
+            labelSubnetMask.Text = $"Adresse IP / CIDR : {subnetMask}/{cidr}";
+            labelNetworkAddress.Text = $"Adresse de réseau (@Net) : {networkAddress}";
+            labelBroadcastAddress.Text = $"Adresse de broadcast (@Broad) : {broadcastAddress}";
+            labelFirstIPAddress.Text = $"Première adresse IP machine : {firstIPAddress}";
+            labelLastIPAddress.Text = $"Dernière adresse IP machine : {lastIPAddress}";
+            labelIPCount.Text = $"Nombre d'adresse(s) IP disponible(s) : {availableIPCount}";
+            labelMachinesCount.Text = $"Nombre de machine(s) disponible(s) : {availableMachinesCount}";
         }
-
 
         private bool IsReservedIPAddress(IPAddress ipAddress)
         {
@@ -240,42 +239,82 @@ namespace IPAddressCalculator
 
         private IPAddress GetNetworkAddress(IPAddress ipAddress, IPAddress subnetMask)
         {
-            byte[] ipBytes = ipAddress.GetAddressBytes();
-            byte[] maskBytes = subnetMask.GetAddressBytes();
-            byte[] networkBytes = new byte[ipBytes.Length];
+            byte CIDR = (byte)DetermineCIDR(textBoxCIDR.Text, textBoxSubnetMask.Text);
+            IPAddress ip = IPAddress.Parse(DetermineIPAddress(textBoxDecimalIPAddress.Text, textBoxBinaryIPAddress.Text));
 
-            for (int i = 0; i < ipBytes.Length; i++)
+            switch (CIDR)
             {
-                networkBytes[i] = (byte)(ipBytes[i] & maskBytes[i]);
+                case 32:
+                    return null;
+                default:
+                    byte[] ipBytes = ipAddress.GetAddressBytes();
+                    byte[] maskBytes = subnetMask.GetAddressBytes();
+                    byte[] networkBytes = new byte[ipBytes.Length];
+
+                    for (int i = 0; i < ipBytes.Length; i++)
+                    {
+                        networkBytes[i] = (byte)(ipBytes[i] & maskBytes[i]);
+                    }
+                    return new IPAddress(networkBytes);
             }
-            return new IPAddress(networkBytes);
         }
 
         private IPAddress GetBroadcastAddress(IPAddress networkAddress, IPAddress subnetMask)
         {
-            byte[] networkBytes = networkAddress.GetAddressBytes();
-            byte[] maskBytes = subnetMask.GetAddressBytes();
-            byte[] broadcastBytes = new byte[networkBytes.Length];
+            byte CIDR = (byte)DetermineCIDR(textBoxCIDR.Text, textBoxSubnetMask.Text);
+            IPAddress ip = IPAddress.Parse(DetermineIPAddress(textBoxDecimalIPAddress.Text, textBoxBinaryIPAddress.Text));
 
-            for (int i = 0; i < networkBytes.Length; i++)
+            switch (CIDR)
             {
-                broadcastBytes[i] = (byte)(networkBytes[i] | ~maskBytes[i]);
+                case 32:
+                    return null;
+                default:
+                    byte[] networkBytes = networkAddress.GetAddressBytes();
+                    byte[] maskBytes = subnetMask.GetAddressBytes();
+                    byte[] broadcastBytes = new byte[networkBytes.Length];
+
+                    for (int i = 0; i < networkBytes.Length; i++)
+                    {
+                        broadcastBytes[i] = (byte)(networkBytes[i] | ~maskBytes[i]);
+                    }
+                    return new IPAddress(broadcastBytes);
             }
-            return new IPAddress(broadcastBytes);
         }
 
         private IPAddress GetFirstIPAddress(IPAddress networkAddress)
         {
-            byte[] ipBytes = networkAddress.GetAddressBytes();
-            ipBytes[ipBytes.Length - 1] += 1;
-            return new IPAddress(ipBytes);
+            byte CIDR = (byte)DetermineCIDR(textBoxCIDR.Text, textBoxSubnetMask.Text);
+            IPAddress ip = IPAddress.Parse(DetermineIPAddress(textBoxDecimalIPAddress.Text, textBoxBinaryIPAddress.Text));
+
+            switch (CIDR)
+            {
+                case 32:
+                    return ip;
+                case 31:
+                    return null;
+                default:
+                    byte[] ipBytes = networkAddress.GetAddressBytes();
+                    ipBytes[ipBytes.Length - 1] += 1;
+                    return new IPAddress(ipBytes);
+            }
         }
 
         private IPAddress GetLastIPAddress(IPAddress broadcastAddress)
         {
-            byte[] ipBytes = broadcastAddress.GetAddressBytes();
-            ipBytes[ipBytes.Length - 1] -= 1;
-            return new IPAddress(ipBytes);
+            byte CIDR = (byte)DetermineCIDR(textBoxCIDR.Text, textBoxSubnetMask.Text);
+            IPAddress ip = IPAddress.Parse(DetermineIPAddress(textBoxDecimalIPAddress.Text, textBoxBinaryIPAddress.Text));
+
+            switch (CIDR)
+            {
+                case 32:
+                    return ip;
+                case 31:
+                    return null;
+                default:
+                    byte[] ipBytes = broadcastAddress.GetAddressBytes();
+                    ipBytes[ipBytes.Length - 1] -= 1;
+                    return new IPAddress(ipBytes);
+            }
         }
 
         private int GetAvailableIPCount(IPAddress subnetMask)
