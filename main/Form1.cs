@@ -107,6 +107,7 @@ namespace IPAddressCalculator
         {
             labelClass.Text = string.Empty;
             labelSubnetMask.Text = string.Empty;
+            labelInverseSubnetMask.Text = string.Empty;
             labelNetworkAddress.Text = string.Empty;
             labelBroadcastAddress.Text = string.Empty;
             labelFirstIPAddress.Text = string.Empty;
@@ -167,6 +168,7 @@ namespace IPAddressCalculator
             string ipClass = GetIPClass(address);
             IPAddress subnetMask = GetSubnetMaskFromCIDR(cidr);
             IPAddress networkAddress = GetNetworkAddress(address, subnetMask);
+            IPAddress reverseMaskAdress = GetInverseSubnetMask(subnetMask);
             IPAddress broadcastAddress = GetBroadcastAddress(networkAddress, subnetMask);
             IPAddress firstIPAddress = GetFirstIPAddress(networkAddress);
             IPAddress lastIPAddress = GetLastIPAddress(broadcastAddress);
@@ -175,6 +177,7 @@ namespace IPAddressCalculator
 
             labelClass.Text = $"Classe de l'adresse IP : {ipClass}";
             labelSubnetMask.Text = $"Adresse IP / CIDR : {subnetMask}/{cidr}";
+            labelInverseSubnetMask.Text = $"Masque de réseau inverse : {reverseMaskAdress}";
             labelNetworkAddress.Text = $"Adresse de réseau (@Net) : {networkAddress}";
             labelBroadcastAddress.Text = $"Adresse de broadcast (@Broad) : {broadcastAddress}";
             labelFirstIPAddress.Text = $"Première adresse IP machine : {firstIPAddress}";
@@ -220,6 +223,8 @@ namespace IPAddressCalculator
             return -1;
         }
 
+        
+
         private string GetIPClass(IPAddress ipAddress)
         {
             byte firstOctet = ipAddress.GetAddressBytes()[0];
@@ -235,6 +240,19 @@ namespace IPAddressCalculator
         {
             uint mask = 0xffffffff << (32 - cidr);
             return new IPAddress(BitConverter.GetBytes(mask).Reverse().ToArray());
+        }
+
+        private IPAddress GetInverseSubnetMask(IPAddress subnetMask)
+        {
+            byte[] maskBytes = subnetMask.GetAddressBytes();
+            byte[] inverseMaskBytes = new byte[maskBytes.Length];
+
+            for (int i = 0; i < maskBytes.Length; i++)
+            {
+                inverseMaskBytes[i] = (byte)~maskBytes[i];
+            }
+
+            return new IPAddress(inverseMaskBytes);
         }
 
         private IPAddress GetNetworkAddress(IPAddress ipAddress, IPAddress subnetMask)
