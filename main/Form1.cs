@@ -347,7 +347,7 @@ namespace IPAddressCalculator
                 availableIPCount = 1;
             }
 
-            return availableIPCount;
+            return availableIPCount + 1;
         }
 
         private int GetAvailableMachinesCount(IPAddress subnetMask)
@@ -365,7 +365,7 @@ namespace IPAddressCalculator
             }
             else
             {
-                return availableIPCount - 2;
+                return availableIPCount - 3;
             }
         }
 
