@@ -339,24 +339,36 @@ namespace IPAddressCalculator
         {
             byte[] maskBytes = subnetMask.GetAddressBytes();
             uint mask = BitConverter.ToUInt32(maskBytes.Reverse().ToArray(), 0);
+            int availableIPCount = (int)(~mask & 0xFFFFFFFF);
 
-            return (int)(~mask + 1);
+            // If the subnet mask is /32, only one IP address is available (itself).
+            if (availableIPCount < 0)
+            {
+                availableIPCount = 1;
+            }
+
+            return availableIPCount;
         }
 
         private int GetAvailableMachinesCount(IPAddress subnetMask)
         {
+            int availableIPCount = GetAvailableIPCount(subnetMask);
             byte CIDR = (byte)DetermineCIDR(textBoxCIDR.Text, textBoxSubnetMask.Text);
 
-            switch (CIDR)
+            if (CIDR == 32)
             {
-                case 32:
-                    return 1;
-                case 31:
-                    return 0;
-                default:
-                    return GetAvailableIPCount(subnetMask) - 2;
+                return 1;
+            }
+            else if (CIDR == 31)
+            {
+                return 0;
+            }
+            else
+            {
+                return availableIPCount - 2;
             }
         }
+
 
         private void CreditLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
