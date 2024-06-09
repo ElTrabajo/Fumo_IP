@@ -1,4 +1,4 @@
-﻿namespace IPAddressCalculator
+﻿namespace CalculateurIP
 {
     partial class Form1
     {
@@ -95,7 +95,6 @@
             labelClass.TabIndex = 4;
             labelClass.Text = "Classe de l'adresse IP:";
             labelClass.Visible = false;
-            labelClass.Click += labelClass_Click;
             // 
             // labelSubnetMask
             // 

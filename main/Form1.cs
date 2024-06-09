@@ -3,7 +3,7 @@ using System.Linq;
 using System.Net;
 using System.Windows.Forms;
 
-namespace IPAddressCalculator
+namespace CalculateurIP
 {
     public partial class Form1 : Form
     {
@@ -11,7 +11,6 @@ namespace IPAddressCalculator
         {
             InitializeComponent();
         }
-
 
         private void textBoxDecimalIPAddress_TextChanged(object sender, EventArgs e)
         {
@@ -33,17 +32,17 @@ namespace IPAddressCalculator
             textBoxCIDR.Enabled = string.IsNullOrEmpty(textBoxSubnetMask.Text);
         }
 
+        // Méthode appelée lors du clic sur le bouton "Calculer"
         private void buttonCalculate_Click(object sender, EventArgs e)
         {
+            // Récupérer les valeurs des champs de texte
             string inputDecimal = textBoxDecimalIPAddress.Text;
             string inputBinary = textBoxBinaryIPAddress.Text;
             string inputCIDR = textBoxCIDR.Text;
             string inputSubnetMask = textBoxSubnetMask.Text;
 
-            // Reset labels
             ResetLabels();
 
-            // Determine IP address input type
             string ipString = DetermineIPAddress(inputDecimal, inputBinary);
             if (ipString == null)
             {
@@ -51,12 +50,14 @@ namespace IPAddressCalculator
                 return;
             }
 
+            // Déterminer le CIDR à partir des valeurs fournies
             int cidr = DetermineCIDR(inputCIDR, inputSubnetMask);
             if (cidr == -1)
             {
                 return;
             }
 
+            // Vérifier si l'adresse IP est réservée
             if (IPAddress.TryParse(ipString, out IPAddress address))
             {
                 if (IsReservedIPAddress(address))
@@ -65,13 +66,15 @@ namespace IPAddressCalculator
                     return;
                 }
 
-                DisplayCalculatedValues(address, cidr);
+                // Afficher les valeurs calculées
+                AffichageCalcul(address, cidr);
             }
             else
             {
                 MessageBox.Show("Adresse IP invalide.", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
+            // Afficher les labels des résultats
             labelClass.Visible = true;
             labelSubnetMask.Visible = true;
             labelInverseSubnetMask.Visible = true;
@@ -83,6 +86,7 @@ namespace IPAddressCalculator
             labelMachinesCount.Visible = true;
         }
 
+        // Méthode appelée lors du clic sur le bouton "Effacer"
         private void buttonClear_Click(object sender, EventArgs e)
         {
             // Effacer le texte des champs de texte
@@ -101,8 +105,8 @@ namespace IPAddressCalculator
             labelLastIPAddress.Visible = false;
             labelIPCount.Visible = false;
             labelMachinesCount.Visible = false;
-
         }
+        // Réinitialiser les labels des résultats
         private void ResetLabels()
         {
             labelClass.Text = string.Empty;
@@ -116,6 +120,7 @@ namespace IPAddressCalculator
             labelMachinesCount.Text = string.Empty;
         }
 
+        // Déterminer l'adresse IP 
         private string DetermineIPAddress(string inputDecimal, string inputBinary)
         {
             if (!string.IsNullOrEmpty(inputBinary) && IsBinaryFormat(inputBinary))
@@ -125,6 +130,7 @@ namespace IPAddressCalculator
             return inputDecimal;
         }
 
+        // Déterminer le CIDR
         private int DetermineCIDR(string inputCIDR, string inputSubnetMask)
         {
             if (!string.IsNullOrEmpty(inputCIDR))
@@ -163,7 +169,8 @@ namespace IPAddressCalculator
             return -1;
         }
 
-        private void DisplayCalculatedValues(IPAddress address, int cidr)
+        // Afficher les valeurs calculées
+        private void AffichageCalcul(IPAddress address, int cidr)
         {
             string ipClass = GetIPClass(address);
             IPAddress subnetMask = GetSubnetMaskFromCIDR(cidr);
@@ -176,7 +183,7 @@ namespace IPAddressCalculator
             int availableMachinesCount = GetAvailableMachinesCount(subnetMask);
 
             labelClass.Text = $"Classe de l'adresse IP : {ipClass}";
-            labelSubnetMask.Text = $"Adresse IP / CIDR : {subnetMask}/{cidr}";
+            labelSubnetMask.Text = $"Masque de réseau  / CIDR : {subnetMask}/{cidr}";
             labelInverseSubnetMask.Text = $"Masque de réseau inverse : {reverseMaskAdress}";
             labelNetworkAddress.Text = $"Adresse de réseau (@Net) : {networkAddress}";
             labelBroadcastAddress.Text = $"Adresse de broadcast (@Broad) : {broadcastAddress}";
@@ -186,12 +193,14 @@ namespace IPAddressCalculator
             labelMachinesCount.Text = $"Nombre de machine(s) disponible(s) : {availableMachinesCount}";
         }
 
+        // Vérifier si l'adresse IP est réservée
         private bool IsReservedIPAddress(IPAddress ipAddress)
         {
             byte[] addressBytes = ipAddress.GetAddressBytes();
             return (addressBytes[0] == 0) || (addressBytes[0] == 127);
         }
 
+        // Vérifier si le format de l'adresse IP binaire est valide
         private bool IsBinaryFormat(string ipString)
         {
             string[] parts = ipString.Split('.');
@@ -199,6 +208,7 @@ namespace IPAddressCalculator
             return parts.All(part => part.Length == 8 && part.All(c => c == '0' || c == '1'));
         }
 
+        // Convertir une adresse IP binaire en décimal
         private string ConvertBinaryToDecimal(string binaryIP)
         {
             string[] binaryOctets = binaryIP.Split('.');
@@ -212,6 +222,7 @@ namespace IPAddressCalculator
             return string.Join(".", decimalOctets);
         }
 
+        // Convertir un masque de sous-réseau en CIDR
         private int SubnetMaskToCIDR(string subnetMask)
         {
             if (IPAddress.TryParse(subnetMask, out IPAddress mask))
@@ -223,7 +234,8 @@ namespace IPAddressCalculator
             return -1;
         }
 
-        
+
+        // Obtenir la classe de l'adresse IP
 
         private string GetIPClass(IPAddress ipAddress)
         {
@@ -236,12 +248,14 @@ namespace IPAddressCalculator
             return null;
         }
 
+        // Obtenir le masque de sous-réseau à partir du CIDR
         private IPAddress GetSubnetMaskFromCIDR(int cidr)
         {
             uint mask = 0xffffffff << (32 - cidr);
             return new IPAddress(BitConverter.GetBytes(mask).Reverse().ToArray());
         }
 
+        // Obtenir le masque de sous-réseau inverse
         private IPAddress GetInverseSubnetMask(IPAddress subnetMask)
         {
             byte[] maskBytes = subnetMask.GetAddressBytes();
@@ -255,6 +269,7 @@ namespace IPAddressCalculator
             return new IPAddress(inverseMaskBytes);
         }
 
+        // Obtenir l'adresse de réseau
         private IPAddress GetNetworkAddress(IPAddress ipAddress, IPAddress subnetMask)
         {
             byte CIDR = (byte)DetermineCIDR(textBoxCIDR.Text, textBoxSubnetMask.Text);
@@ -277,6 +292,7 @@ namespace IPAddressCalculator
             }
         }
 
+        // Obtenir l'adresse de broadcast
         private IPAddress GetBroadcastAddress(IPAddress networkAddress, IPAddress subnetMask)
         {
             byte CIDR = (byte)DetermineCIDR(textBoxCIDR.Text, textBoxSubnetMask.Text);
@@ -299,6 +315,7 @@ namespace IPAddressCalculator
             }
         }
 
+        // Obtenir la première adresse IP
         private IPAddress GetFirstIPAddress(IPAddress networkAddress)
         {
             byte CIDR = (byte)DetermineCIDR(textBoxCIDR.Text, textBoxSubnetMask.Text);
@@ -317,6 +334,7 @@ namespace IPAddressCalculator
             }
         }
 
+        // Obtenir la dernière adresse IP
         private IPAddress GetLastIPAddress(IPAddress broadcastAddress)
         {
             byte CIDR = (byte)DetermineCIDR(textBoxCIDR.Text, textBoxSubnetMask.Text);
@@ -335,13 +353,14 @@ namespace IPAddressCalculator
             }
         }
 
+        // Obtenir le nombre d'adresses IP disponibles
         private int GetAvailableIPCount(IPAddress subnetMask)
         {
             byte[] maskBytes = subnetMask.GetAddressBytes();
             uint mask = BitConverter.ToUInt32(maskBytes.Reverse().ToArray(), 0);
             int availableIPCount = (int)(~mask & 0xFFFFFFFF);
 
-            // If the subnet mask is /32, only one IP address is available (itself).
+            // Si le masque de sous-réseau est /32, une seule adresse IP est disponible (elle-même).
             if (availableIPCount < 0)
             {
                 availableIPCount = 1;
@@ -350,6 +369,7 @@ namespace IPAddressCalculator
             return availableIPCount + 1;
         }
 
+        // Obtenir le nombre de machines disponibles
         private int GetAvailableMachinesCount(IPAddress subnetMask)
         {
             int availableIPCount = GetAvailableIPCount(subnetMask);
@@ -365,14 +385,13 @@ namespace IPAddressCalculator
             }
             else
             {
-                return availableIPCount - 3;
+                return availableIPCount - 2;
             }
         }
 
 
         private void CreditLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            // Affichez le message des crédits de l'auteur lorsque le lien est cliqué
             string message = "Crédits : \n\n" +
                             "LEMAIRE Clément\n" +
                             "GHEERAERT Elias\n" +
@@ -381,11 +400,6 @@ namespace IPAddressCalculator
                             "2024";
 
             MessageBox.Show(message, "Crédits", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-        }
-
-        private void labelClass_Click(object sender, EventArgs e)
-        {
 
         }
     }

@@ -1,4 +1,4 @@
-using IPAddressCalculator;
+using CalculateurIP;
 
 namespace WinFormsApp1
 {
